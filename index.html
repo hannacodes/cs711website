@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <!-- author: hanna koh
+    rit global illumination assignments 
+    date: 1/21/25
+    -->
+    <meta charset="UFT-8" />
+    <title>CSCI-711 Hanna Koh</title>
+    <link rel="stylesheet" href="home.css" type="text/css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="https://image.flaticon.com/icons/svg/2909/2909471.svg" sizes="16x16" type="image/png">
+
+    <style>
+        body,
+        html {
+            height: 100%;
+            margin: 0;
+
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- <section class="topnav">
+        <input type="search" id="site-search" name="q" aria-label="Search through site content">
+
+        <button onclick="search()">Search</button>
+
+        <script>
+
+            var TRange = null;
+
+            function search() {
+                var input = document.getElementById("site-search").value;
+                findString(input);
+            }
+
+            function findString(str) {
+                if (parseInt(navigator.appVersion) < 4) return;
+                var strFound;
+                if (window.find) {
+
+                    // CODE FOR BROWSERS THAT SUPPORT window.find
+
+                    strFound = self.find(str);
+                    if (!strFound) {
+                        strFound = self.find(str, 0, 1);
+                        while (self.find(str, 0, 1)) continue;
+                    }
+                }
+                else if (navigator.appName.indexOf("Microsoft") != -1) {
+
+                    // EXPLORER-SPECIFIC CODE
+
+                    if (TRange != null) {
+                        TRange.collapse(false);
+                        strFound = TRange.findText(str);
+                        if (strFound) TRange.select();
+                    }
+                    if (TRange == null || strFound == 0) {
+                        TRange = self.document.body.createTextRange();
+                        strFound = TRange.findText(str);
+                        if (strFound) TRange.select();
+                    }
+                }
+                else if (navigator.appName == "Opera") {
+                    alert("Opera browsers not supported, sorry...")
+                    return;
+                }
+                if (!strFound) alert("String '" + str + "' not found!")
+                return;
+            }
+        </script>
+
+    </section> -->
+    <header>Global Illumination Assignments </br> Hanna Koh</header>
+
+
+    <section class="column">
+        <section class="assn">
+            <h2>Assignment 1</h2>
+            <a href="./assn1.html"><img img class="map" src="imgs/assn1.png" width=auto ></a>
+        </section>
+<!-- 
+        <section class="assn">
+            <h2>Assignment 1</h2>
+            <a href="./assn1.html"><img img class="map" src="imgs/assn1.png" width=auto></a>
+        </section>
+ -->
+
+    </section>
+
+
+        
+
+    <footer>
+        <address>
+           Website for CSCI-711 Global Illumination at RIT
+        </address>
+    </footer>
+
+
+</body>
+
+</html>
