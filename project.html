@@ -1,0 +1,158 @@
+<!-- Intro – what you wanted to do
+¤ Architecture – how did you go about it.
+¤ System – what you built to do it.
+¤ Results – pretty pictures
+¤ Future Work – what would you do next -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="assn.css" type="text/css" />
+    <title>Project - Raytracer Color Effects</title>
+</head>
+
+<body>
+    <header>Project: Raytracer Color Effects</header>
+    <h2>Introduction</h2>
+    <p>
+        This project aimed to design a flexible and customizable color modification enhancement on top of the raytracer we developed for class. This enhancement allows users to apply a range of different aesthetic effects to images, including hue, saturation, brightnesa adjustments, color balancing, grayscale conversion, sepia tone filtering, and noise effects. The goal was to give users fine-grained control over the visual tone and mood of their images through intuitive, parameter based transformations, while also ensuring that the implementation was efficient and easy to integrate into the existing raytracer framework.
+    </p>
+
+    <h2>Architecture</h2>
+    <p>
+        I chose to design this enhancement as a modular function, where each color effect is encapsulated in its own if statement that checks the camera attribues dictionary for the presence of a specific key. This allows for easy addition of new effects in the future, as well as the ability to combine multiple effects in a single rendering pass. The implementation leverages the existing raytracer framework, ensuring that the color modifications are applied after the raytracing calculations have been completed, allowing for maximum flexibility and control over the final image output. Each color modification stage is functionally independent, meaning that they can be applied in any order or combination without affecting the underlying raytracing calculations. This modular approach not only simplifies the implementation but also enhances the maintainability of the codebase, making it easier to debug and extend in the future. 
+    </p>
+
+    <h2>System</h2>
+    <p>
+        The core of this enhancement is the color modification function, which takes in a color and applies the specified effects based on the camera attributes. The function first checks for the presence of specific keys in the camera attributes dictionary, such as "hue", "saturation", "brightness", "color_balance", "grayscale", "sepia", and "noise". Depending on which keys are present, the function applies the corresponding transformations to the color. For example, if the "hue" key is present, the function adjusts the hue of the color by a specified amount. Similarly, if the "saturation" key is present, it adjusts the saturation level of the color. The function also includes checks for grayscale and sepia effects, applying these transformations as needed. Finally, if a noise effect is specified, it adds a random noise component to the color to create a more textured appearance.
+        <br/>
+        <br/>
+        1. Hue, Saturation, Brightness Adjustments (HSV-based): 
+        <br/>
+        If the appropriate keys (hue_adjust, saturation_adjust, brightness_adjust) are present, the system first converts the RGB values to HSV. Adjustments are applied directly in the HSV color space for better results, then converted back to RGB. Clipping ensures that the final values stay in the displayable range (0-255)
+        <br/>
+        2. Color Balance (CMY-based):
+        <br/>
+        The system can perform color balancing in the CMY color space. It does this by inverting the RGB components to get CMY, applying the specified adjustments, and then converting back to RGB. This approach enables nuanced control over tones like cyan, magenta, and yellow, common in photography and printing.
+        <br/>
+        3. Grayscale Blending:
+        <br/>
+        Rather than just converting to grayscale, the system blends the original color with a grayscale version of itself. This allows for more subtle effects and can be controlled by a blending factor. The grayscale conversion is done using the luminosity method, which takes into account human perception of brightness. It uses a luminance-based formula to compute grayscale intensity and linearily interpolates between the two. This allows users to desaturate images subtly rather than going fully monochrome.
+        <br/>
+        4. Sepia Filter:
+        <br/>
+        The sepia effect applies a classic brownish tone to images. The system uses values from the sepia matrix transformation to apply the sepia effect, which is a common technique in image processing. The sepia matrix is applied to the RGB values, and the result is clamped to ensure valid color values. Like the grayscale blending, this effect can be controlled by a blending factor, allowing for more subtle applications of the sepia tone. Users can apply it partially for warmth, or fully for a nostalgic aesthetic.
+        <br/>
+        5. Noise Effect:
+        <br/>
+        To simulate film grain or add a visual texture, a uniform random noise generator is used to add a noise effect to each color channel. The user specifies the maximum percentage of noise relative to the full 0-255 color scale, which makes the effect highly customizable. The user can choose to have a light noise effect, or make the image totally unrecognizable. The noise is generated using a uniform distribution, ensuring that the noise is evenly distributed across the color spectrum. This effect can be particularly useful for creating a vintage or artistic look, and can be combined with other effects for even more complex transformations.
+        <br/>
+        6. Final Output: 
+        <br/>
+        After all effects are applied, the final RGB values are clipped to the 0-255 range to ensure valid color output. The final values are then sent back to the camera, to generate the final image from the raytracer. The modular design allows for easy addition of new effects in the future, as well as the ability to combine multiple effects in a single rendering pass. The implementation leverages the existing raytracer framework, ensuring that the color modifications are applied after the raytracing calculations have been completed, allowing for maximum flexibility and control over the final image output.
+    </p>
+
+    <h2>Results</h2>
+    <img class="map" src="imgs/project_og.png" alt="Original Image" width="300" height="200" />
+    <p>Original Image</p>
+
+    <img class="map" src="imgs/project_hue02.png" alt="Hue - 0.2" width="300" height="200" />
+    <p>Hue - 0.2</p>
+    
+    <img class="map" src="imgs/project_hue08.png" alt="Hue - 0.8" width="300" height="200" />
+    <p>Hue - 0.8</p>
+    
+    <img class="map" src="imgs/project_hue1.png" alt="Hue - 1.0" width="300" height="200" />
+    <p>Hue - 1.0</p>
+    
+    <img class="map" src="imgs/project_sat12.png" alt="Sat - 1.2" width="300" height="200" />
+    <p>Sat - 1.2</p>
+    
+    <img class="map" src="imgs/project_sat18.png" alt="Sat - 1.8" width="300" height="200" />
+    <p>Sat - 1.8</p>
+    
+    <img class="map" src="imgs/project_sat2.png" alt="Sat - 2.0" width="300" height="200" />
+    <p>Sat - 2.0</p>
+    
+    <img class="map" src="imgs/project_bright12.png" alt="Brightness - 1.2" width="300" height="200" />
+    <p>Brightness - 1.2</p>
+    
+    <img class="map" src="imgs/project_bright18.png" alt="Brightness - 1.8" width="300" height="200" />
+    <p>Brightness - 1.8</p>
+    
+    <img class="map" src="imgs/project_bright2.png" alt="Brightness - 2.0" width="300" height="200" />
+    <p>Brightness - 2.0</p>
+    
+    <img class="map" src="imgs/project_hsb021212.png" alt="HSB - H: 0.2, S: 1.2, B: 1.2" width="300" height="200" />
+    <p>HSB - H: 0.2, S: 1.2, B: 1.2</p>
+    
+    <img class="map" src="imgs/project_cyan12.png" alt="Cyan - 1.2" width="300" height="200" />
+    <p>Cyan - 1.2</p>
+    
+    <img class="map" src="imgs/project_cyan18.png" alt="Cyan - 1.8" width="300" height="200" />
+    <p>Cyan - 1.8</p>
+    
+    <img class="map" src="imgs/project_cyan2.png" alt="Cyan - 2.0" width="300" height="200" />
+    <p>Cyan - 2.0</p>
+    
+    <img class="map" src="imgs/project_magenta12.png" alt="Magenta - 1.2" width="300" height="200" />
+    <p>Magenta - 1.2</p>
+    
+    <img class="map" src="imgs/project_magenta18.png" alt="Magenta - 1.8" width="300" height="200" />
+    <p>Magenta - 1.8</p>
+    
+    <img class="map" src="imgs/project_magenta2.png" alt="Magenta - 2.0" width="300" height="200" />
+    <p>Magenta - 2.0</p>
+    
+    <img class="map" src="imgs/project_yellow12.png" alt="Magenta - 1.2" width="300" height="200" />
+    <p>Yellow - 1.2</p>
+    
+    <img class="map" src="imgs/project_yellow18.png" alt="Magenta - 1.8" width="300" height="200" />
+    <p>Yellow - 1.8</p>
+    
+    <img class="map" src="imgs/project_yellow2.png" alt="Magenta - 2.0" width="300" height="200" />
+    <p>Yellow - 2.0</p>
+    
+    <img class="map" src="imgs/project_cmy222.png" alt="Magenta - 2.0" width="300" height="200" />
+    <p>CMY Adjustments - C: 2.0, M: 2.0, Y: 2.0</p>
+
+    <img class="map" src="imgs/project_sepia02.png" alt="Sepia - 0.2" width="300" height="200" />
+    <p>Sepia - 0.2</p>
+
+    <img class="map" src="imgs/project_sepia08.png" alt="Sepia - 0.8" width="300" height="200" />
+    <p>Sepia - 0.8</p>
+
+    <img class="map" src="imgs/project_sepia1.png" alt="Sepia - 1.0" width="300" height="200" />
+    <p>Sepia - 1.0</p>
+
+    <img class="map" src="imgs/project_grayscale02.png" alt="Sepia - 0.2" width="300" height="200" />
+    <p>Grayscale - 0.2</p>
+    
+    <img class="map" src="imgs/project_grayscale08.png" alt="Sepia - 0.8" width="300" height="200" />
+    <p>Grayscale - 0.8</p>
+    
+    <img class="map" src="imgs/project_grayscale1.png" alt="Sepia - 1.0" width="300" height="200" />
+    <p>Grayscale - 1.0</p>
+
+    <img class="map" src="imgs/project_noise02.png" alt="Noise - 0.2" width="300" height="200" />
+    <p>Noise - 0.2</p>
+    
+    <img class="map" src="imgs/project_noise08.png" alt="Noise - 0.8" width="300" height="200" />
+    <p>Noise - 0.8</p>
+    
+    <img class="map" src="imgs/project_noise1.png" alt="Noise - 1.0" width="300" height="200" />
+    <p>Noise - 1.0</p>
+    
+    <h2>Future Work</h2>
+    <p>
+        In the future, I would like to explore the possibility of adding more advanced effects, such as bloom, lens flare, and depth of field. These effects would require more complex calculations and potentially additional data structures to store intermediate results, but they could significantly enhance the visual quality of the rendered images. Additionally, I would like to investigate the use of machine learning techniques for automatic color grading and enhancement, which could provide even more powerful and flexible tools for artists and designers.
+    </p>
+
+
+</body>
+
+</html>
